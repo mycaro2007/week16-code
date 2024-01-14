@@ -10,7 +10,7 @@ pipeline{
                 sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mycaro2007_week16-code'
             }
         }
-        stage('all all maven commands'){
+        stage('all maven commands'){
             steps{
                 sh 'mvn clean test compile install package'
                  }
