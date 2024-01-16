@@ -2,27 +2,26 @@ pipeline {
     agent any
     
     tools {
-        // Define Maven tool. Ensure 'M2_HOME' is configured in Jenkins global tools configuration.
+        // Specify Maven. Ensure 'M2_HOME' is configured in your Jenkins.
         maven 'M2_HOME'
     }
 
     stages {
         stage('SonarQube Scan') {
             steps {
-                // Ensure the SonarQube environment is correctly configured in Jenkins.
+                // Define SonarQube environment. Make sure 'sonarserver' is configured in Jenkins.
                 withSonarQubeEnv('sonarserver') {
-                    // The Maven SonarQube plugin does not require explicit mention of the goal if it's correctly set up in the POM or settings.xml.
-                    sh 'mvn verify sonar:sonar -Dsonar.projectKey=mycaro2007_week16-code'
+                    // Run SonarQube analysis
+                    sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mycaro2007_week16-code'
                 }
             }
         }
 
         stage('Maven Commands') {
             steps {
-                // The 'install' phase automatically includes 'compile' and 'test', and 'package' is a part of 'install'.
-                // So you can simplify this to just 'clean install'.
-                sh 'mvn clean install'
-            }
+                // Run Maven lifecycle phases: clean, test, compile, install, package
+                sh 'mvn clean test compile install package'
+            }  
         }
     }
 }
