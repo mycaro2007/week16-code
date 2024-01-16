@@ -11,7 +11,7 @@ pipeline {
 
                 
                 sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                 -Dsonar.projectKey=betterfuture1_week16-geo'
+                 -Dsonar.projectKey=mycaro2007_week16-geo'
             }
         }
     }
