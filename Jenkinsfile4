@@ -1,30 +1,23 @@
 pipeline {
     agent any
     
-    tools {
-        // Ensure Maven is correctly configured
+    tools{
         maven 'M2_HOME'
     }
-
-    stages {
-        stage('SonarQube Scan') {
+    stages{
+        stage ('sonarqube scan'){
             steps {
-                // Specify the SonarQube environment
-                withSonarQubeEnv('sonarserver') {
-                    // Corrected Maven command for SonarQube analysis
-                    sh 'mvn verify sonar:sonar -Dsonar.projectKey=mycaro2007_week16-code'
-                }
+                withSonarQubeEnv('sonarserver'){
+
+                
+                sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mycaro2007_week16-code'
             }
         }
-
-        stage('Maven Commands') {
-            steps {
-                // Maven clean, test, compile, and package
-                // 'install' is generally used for installing the package into the local repository, for use as a dependency in other projects locally
-                // 'package' compiles your code and also packages it. For instance, into a JAR.
-                // The sequence of phases (clean, test, compile, package) matters as it defines the lifecycle to be run.
-                sh 'mvn clean test compile package'
-            }  
+    }
+        stage ('maven commands') {
+          steps {
+	            sh 'mvn clean test compile install package'
+	        }  
         }
     }
 }
